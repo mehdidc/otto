@@ -14,12 +14,17 @@ class Classifier(BaseEstimator):
     def __init__(self):
 
         self.clf = Pipeline([
-            ('log', LogScaler()),
+#            ('log', LogScaler()),
             ('scaler', StandardScaler()),
-            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[1000],
+            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[50],
                                           max_nb_epochs=30,
-                                          batch_size=256,
-                                          learning_rate=1.,
+                                          batch_size=128,
+                                          learning_rate=0.1,
+                                          momentum=0.3,
+                                          validation_set_ratio=0.1,
+                                          patience_threshold_progression_rate=0.001,
+                                          patience_stat="valid_loss",
+                                          optimization_method='rmsprop',
                                           L1_factor=0.0001)),
         ])
 
