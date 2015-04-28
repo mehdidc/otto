@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 class FeatureExtractor(object):
@@ -10,6 +11,5 @@ class FeatureExtractor(object):
         pass
 
     def transform(self, X_dict):
-        #print X_dict.keys()
-        cols = X_dict[0].keys()[1:] # this takes everything except id
+        cols = X_dict[0].keys()
         return np.array([[instance[col] for col in cols] for instance in X_dict])
