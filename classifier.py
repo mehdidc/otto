@@ -16,15 +16,15 @@ class Classifier(BaseEstimator):
         self.clf = Pipeline([
 #            ('log', LogScaler()),
             ('scaler', StandardScaler()),
-            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[50],
+            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[512, 512, 512],
+                                          dropout_probs=[0.5, 0.5, 0.5],
                                           max_nb_epochs=30,
                                           batch_size=128,
-                                          learning_rate=0.1,
-                                          momentum=0.3,
+                                          learning_rate=0.001,
                                           validation_set_ratio=0.1,
                                           patience_threshold_progression_rate=0.001,
                                           patience_stat="valid_loss",
-                                          optimization_method='rmsprop',
+                                          optimization_method='adam',
                                           L1_factor=0.0001)),
         ])
 
