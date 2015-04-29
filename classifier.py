@@ -19,20 +19,20 @@ class Classifier(BaseEstimator):
 
     def __init__(self):
         self.net = None
+        self.label_encoder = None
 
     def fit(self, X, y):
-
         layers0 = [('input', InputLayer),
                    ('dense0', DenseLayer),
                    ('dropout', DropoutLayer),
                    ('dense1', DenseLayer),
                    ('output', DenseLayer)]
         X = X.astype(theano.config.floatX)
-        encoder = LabelEncoder()
-        y = encoder.fit_transform(y).astype(np.int32)
+        self.label_encoder = LabelEncoder()
+        y = self.label_encoder.fit_transform(y).astype(np.int32)
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
-        num_classes = len(encoder.classes_)
+        num_classes = len(self.label_encoder.classes_)
         num_features = X.shape[1]
         self.net = NeuralNet(layers=layers0,
                              input_shape=(None, num_features),
@@ -54,7 +54,7 @@ class Classifier(BaseEstimator):
 
     def predict(self, X):
         X = X.astype(theano.config.floatX)
-        return self.net.predict(X)
+        return self.label_encoder.inverse_transform(self.net.predict(X))
 
     def predict_proba(self, X):
         X = X.astype(theano.config.floatX)
