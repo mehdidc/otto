@@ -15,13 +15,14 @@ class Classifier(BaseEstimator):
         self.clf = Pipeline([
             #('log', LogScaler()),
             ('scaler', StandardScaler()),
-            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[1000, 1000],
-                                          learning_rate=1.,
-                                          dropout_probs=[0.7, 0.7],
-                                          optimization_method='adadelta',
-                                          max_nb_epochs=30,
-                                          batch_size=256,
-                                          )),
+            ('nnet', SimpleNeuralNet(max_nb_epochs=150,
+                                     nb_hidden_list=[500],
+                                     activations=[('maxout', {"nb_components":3})],
+                                     dropout_probs=[0.5],
+                                     learning_rate=0.1,
+                                     optimization_method='rmsprop',
+                                     L1_factor=0.0001,
+                                     batch_size=256)),
         ])
 
     def fit(self, X, y):
