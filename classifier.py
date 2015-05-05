@@ -12,17 +12,15 @@ import theano
 class Classifier(BaseEstimator):
 
     def __init__(self):
+
         self.clf = Pipeline([
-            #('log', LogScaler()),
+            ('log', LogScaler()),
             ('scaler', StandardScaler()),
-            ('nnet', SimpleNeuralNet(max_nb_epochs=150,
-                                     nb_hidden_list=[500],
-                                     activations=[('maxout', {"nb_components":3})],
-                                     dropout_probs=[0.5],
-                                     learning_rate=0.1,
-                                     optimization_method='rmsprop',
-                                     L1_factor=0.0001,
-                                     batch_size=256)),
+            ('neuralnet', SimpleNeuralNet(nb_hidden_list=[1000],
+                                          max_nb_epochs=30,
+                                          batch_size=256,
+                                          learning_rate=1.,
+                                          L1_factor=0.0001)),
         ])
 
     def fit(self, X, y):
